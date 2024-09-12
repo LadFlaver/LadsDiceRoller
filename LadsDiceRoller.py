@@ -28,7 +28,7 @@ def diceRoller():
         diceType = int(diceType)
         while diceNumber > 0:
             global roll, total
-            roll = random.randrange(1, diceType)
+            roll = random.randrange(1, diceType + 1)
             total = roll + total
             dicePrinter()
         printTotal()
