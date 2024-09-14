@@ -31,8 +31,8 @@ def getDiceNumber():
         print('Error, integer value expected!')
         getDiceNumber()
     rollAgainNumber = diceNumber
+    
 #Performs dice math and prints the results.
-
 def diceRoller():
     global diceType, diceNumber
     print()
