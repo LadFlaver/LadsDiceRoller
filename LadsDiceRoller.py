@@ -49,13 +49,14 @@ def diceRoller():
 #Checks if the user wants to roll again with the same dice set previously used.
 def rollAgainPrompt():
     print()
-    rollAgain = input('Do you want to roll again? (y/n): ')
+    rollAgain = input('Do you want to roll the same dice again? (y/n): ')
     if rollAgain in 'y':
         diceVars.diceType = f'D{diceVars.diceType}'
         diceVars.diceNumber = diceVars.rollAgainNumber
         diceRoller()
         rollAgainPrompt()
     elif rollAgain not in ['y', 'n']:
+        print()
         print("Error, 'y' or 'n' expected.")
         rollAgainPrompt()
 
