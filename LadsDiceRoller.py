@@ -1,7 +1,9 @@
 import random
-diceType = ''
-diceNumber = 0
-rollAgainNumber = 0
+
+class diceVars:
+    diceType = ''
+    diceNumber = 0
+    rollAgainNumber = 0
 
 def main ():
     getDiceType()
@@ -12,50 +14,45 @@ def main ():
 
 #Gets the type of dice the user wants to roll and validates it.
 def getDiceType():
-    global diceType
     print()
-    diceType = input('What type of dice would you like to roll? (D100, D20, D12, D10, D8, D6, or D4): ')
-    if diceType.upper() not in ['D100', 'D20', 'D12', 'D10', 'D8', 'D6', 'D4']:
+    diceVars.diceType = input('What type of dice would you like to roll? (D100, D20, D12, D10, D8, D6, or D4): ')
+    if diceVars.diceType.upper() not in ['D100', 'D20', 'D12', 'D10', 'D8', 'D6', 'D4']:
         print()
         print('Error, Invalid Dice Type! Please input one of the following: D100, D20, D12, D10, D8, D6, or D4.')
         getDiceType()
 
 #Gets the number of dice the user wants to roll and validates it.
 def getDiceNumber():
-    global diceNumber, rollAgainNumber
     print()
     try:
-        diceNumber = int(input('How many?: '))
+        diceVars.diceNumber = int(input('How many?: '))
     except:
         print()
         print('Error, integer value expected!')
         getDiceNumber()
-    rollAgainNumber = diceNumber
-    
+    diceVars.rollAgainNumber = diceVars.diceNumber
+
 #Performs dice math and prints the results.
 def diceRoller():
-    global diceType, diceNumber
     print()
-    print(f'Rolling {diceNumber} {diceType.upper()}...')
-    diceType = diceType[1:]
-    diceType = int(diceType)
+    print(f'Rolling {diceVars.diceNumber} {diceVars.diceType.upper()}...')
+    diceVars.diceType = diceVars.diceType[1:]
+    diceVars.diceType = int(diceVars.diceType)
     total = 0
-    while diceNumber > 0:
-        diceNumber = diceNumber - 1
-        roll = random.randrange(1, diceType + 1)
+    while diceVars.diceNumber > 0:
+        diceVars.diceNumber = diceVars.diceNumber - 1
+        roll = random.randrange(1, diceVars.diceType + 1)
         total = total + roll
         print(roll)
     print(f'The total is {total}!')
 
 #Checks if the user wants to roll again with the same dice set previously used.
 def rollAgainPrompt():
-    global diceNumber, rollAgainNumber
     print()
     rollAgain = input('Do you want to roll again? (y/n): ')
     if rollAgain in 'y':
-        global diceType
-        diceType = f'D{diceType}'
-        diceNumber = rollAgainNumber
+        diceVars.diceType = f'D{diceVars.diceType}'
+        diceVars.diceNumber = diceVars.rollAgainNumber
         diceRoller()
         rollAgainPrompt()
     elif rollAgain not in ['y', 'n']:
