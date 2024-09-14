@@ -74,4 +74,5 @@ def quitPrompt():
     else:
         quit()
 
+print("Welcome to Lad's Dice Roller!")
 main()
