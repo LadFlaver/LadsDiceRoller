@@ -1,57 +1,77 @@
 import random
-roll = 0
-total = 0
-diceNumber = 0
 diceType = ''
-rollMore = 'yes'
-#Prints the final result to the command line.
-def printTotal():
-    global total
-    print(f'The total is {total}!')
-    total = 0
-#Prompts the user for what dice they want to use and how many to roll.
-def getDice():
-    global diceNumber, diceType
-    print()
-    print('What type of dice would you like to roll? (D100, D20, D12, D10, D8, D6, or D4)')
-    diceType = input()
-    print('How many?')
-    diceNumber = input()
-    diceNumber = int(diceNumber)
-#Does the math for dice rolls. Checks if dice types are valid real-world dice types.
-def diceRoller():
+diceNumber = 0
+rollAgainNumber = 0
+
+def main ():
+    getDiceType()
+    getDiceNumber()
+    diceRoller()
+    rollAgainPrompt()
+    quitPrompt()
+
+#Gets the type of dice the user wants to roll and validates it.
+def getDiceType():
     global diceType
-    if diceType == 'D100' or diceType == 'D20' or diceType == 'D12' or diceType == 'D10' or diceType == 'D8' or diceType == 'D6' or diceType == 'D4':
+    print()
+    diceType = input('What type of dice would you like to roll? (D100, D20, D12, D10, D8, D6, or D4): ')
+    if diceType.upper() not in ['D100', 'D20', 'D12', 'D10', 'D8', 'D6', 'D4']:
         print()
-        print(f'Rolling {diceNumber} {diceType}...')
-        diceType = diceType[1:]
-        diceType = int(diceType)
-        while diceNumber > 0:
-            global roll, total
-            roll = random.randrange(1, diceType + 1)
-            total = roll + total
-            dicePrinter()
-        printTotal()
-    else:
-        print('Error, Invalid Dice Type! Please Input One Of The Following: D100, D20, D12, D10, D8, D6, or D4.')
-#Prints the result of each dice roll and controls the number of rolls.
-def dicePrinter():
-    global diceNumber
-    diceNumber = diceNumber - 1
-    print(roll)
-#Runs at the end of dice rolls. Controls the rollMore variable. Checks for valid inputs.
+        print('Error, Invalid Dice Type! Please input one of the following: D100, D20, D12, D10, D8, D6, or D4.')
+        getDiceType()
+
+#Gets the number of dice the user wants to roll and validates it.
+def getDiceNumber():
+    global diceNumber, rollAgainNumber
+    print()
+    try:
+        diceNumber = int(input('How many?: '))
+    except:
+        print()
+        print('Error, integer value expected!')
+        getDiceNumber()
+    rollAgainNumber = diceNumber
+#Performs dice math and prints the results.
+
+def diceRoller():
+    global diceType, diceNumber
+    print()
+    print(f'Rolling {diceNumber} {diceType.upper()}...')
+    diceType = diceType[1:]
+    diceType = int(diceType)
+    total = 0
+    while diceNumber > 0:
+        diceNumber = diceNumber - 1
+        roll = random.randrange(1, diceType + 1)
+        total = total + roll
+        print(roll)
+    print(f'The total is {total}!')
+
+#Checks if the user wants to roll again with the same dice set previously used.
+def rollAgainPrompt():
+    global diceNumber, rollAgainNumber
+    print()
+    rollAgain = input('Do you want to roll again? (y/n): ')
+    if rollAgain in 'y':
+        global diceType
+        diceType = f'D{diceType}'
+        diceNumber = rollAgainNumber
+        diceRoller()
+        rollAgainPrompt()
+    elif rollAgain not in ['y', 'n']:
+        print("Error, 'y' or 'n' expected.")
+        rollAgainPrompt()
+
+#Checks if the user wants to quit the program.
 def quitPrompt():
     print()
-    print('Would you like to roll more dice? (yes/no)')
-    global rollMore
-    rollMore = input()
-    if rollMore != 'yes' and rollMore != 'no':
-        print('Error, "yes" or "no" expected.')
+    quitConfirmation = input('Would you like to quit the application? (y/n): ')
+    if quitConfirmation in 'n':
+        main()
+    elif quitConfirmation not in ['y', 'n']:
+        print("Error, 'y' or 'n' expected.")
         quitPrompt()
-print()
-print("Welcome to Lad's Dice Roller!")
-#Runs until the rollMore variable is set to 'no'.
-while rollMore == 'yes':
-    getDice()
-    diceRoller()
-    quitPrompt()
+    else:
+        quit()
+
+main()
